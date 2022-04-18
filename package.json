@@ -1,12 +1,16 @@
 {
-  "name": "node-starter",
+  "name": "poopcraft",
   "version": "0.0.0",
+  "main": "server/index.js",
   "scripts": {
+    "start": "server/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
     "express": "^4.17.3",
     "fs": "*",
     "socket.io": "^4.4.1"
-  }
+  },
+  "keywords": ["Poopcraft", "The1WeirdDev"],
+  "description": "A Voxel Game that you can run on the web."
 }
