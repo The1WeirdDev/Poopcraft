@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "main": "server/index.js",
   "scripts": {
-    "start": "server/index.js",
+    "start": "node server/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
@@ -11,6 +11,9 @@
     "fs": "*",
     "socket.io": "^4.4.1"
   },
-  "keywords": ["Poopcraft", "The1WeirdDev"],
+  "keywords": [
+    "Poopcraft",
+    "The1WeirdDev"
+  ],
   "description": "A Voxel Game that you can run on the web."
 }

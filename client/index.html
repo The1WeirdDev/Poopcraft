@@ -4,6 +4,21 @@
   </head>
 
   <body>
-    <h1>Hello</h1>
+    <div id="game">
+      <canvas id="webgl-canvas" style="position: absolute; top: 0%;"></canvas>
+    </div>
+    <div>
+      <!-- Display -->
+      <script src="client/scripts/display/display.js" defer></script>
+      <script src="client/scripts/display/textures.js" defer></script>
+      <script src="client/scripts/display/mesh.js" defer></script>
+
+      <!-- Shaders -->
+      <script src="client/scripts/display/shaders/shader.js" defer></script>
+      <script src="client/scripts/display/shaders/shaders.js" defer></script>
+
+      <script src="client/scripts/statics.js" defer></script>
+      <script src="client/main.js" defer></script>
+    </div>
   </body>
 </html>
