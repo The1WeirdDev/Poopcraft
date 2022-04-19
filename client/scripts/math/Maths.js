@@ -6,6 +6,12 @@ class Maths {
     return degrees * Maths.radian;
   }
 
+  static clamp(val, min, max) {
+    if (val < min) return min;
+    else if (val > max) return max;
+    else return val;
+  }
+
   static generateProjectionMatrix(FOV, NEAR_PLANE, FAR_PLANE) {
     let aspectRatio = Display.getAspectRatio();
     let y_scale = (1.0 / Math.tan(Maths.toRadians(FOV / 2.0))) * aspectRatio;
@@ -41,6 +47,7 @@ class Maths {
 
   static generateViewMatrix(transform) {
     let matrix = mat4.create();
+
     mat4.rotate(matrix, matrix, Maths.toRadians(transform.pitch), [1, 0, 0]);
     mat4.rotate(matrix, matrix, Maths.toRadians(transform.yaw), [0, 1, 0]);
     mat4.rotate(matrix, matrix, Maths.toRadians(transform.roll), [0, 0, 1]);

@@ -5,7 +5,10 @@
 
   <body>
     <div id="game">
-      <canvas id="webgl-canvas" style="position: absolute; top: 0%;"></canvas>
+      <canvas
+        id="webgl-canvas"
+        style="cursor: none; position: absolute; top: 0%;"
+      ></canvas>
     </div>
     <div>
       <!-- Display -->
@@ -25,11 +28,13 @@
       <script src="client/scripts/math/Transform.js" defer></script>
 
       <!-- Entities-->
+      <script src="client/scripts/entities/Entity.js" defer></script>
       <script src="client/scripts/entities/player/Player.js" defer></script>
       <script src="client/scripts/entities/player/Camera.js" defer></script>
 
       <!-- Utils -->
       <script src="client/scripts/utils/Time.js" defer></script>
+      <script src="client/scripts/utils/Input.js" defer></script>
 
       <script src="client/scripts/Statics.js" defer></script>
       <script src="client/Main.js" defer></script>

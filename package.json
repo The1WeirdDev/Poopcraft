@@ -11,9 +11,6 @@
     "fs": "*",
     "socket.io": "^4.4.1"
   },
-  "keywords": [
-    "Poopcraft",
-    "The1WeirdDev"
-  ],
-  "description": "A Voxel Game that you can run on the web."
+  "keywords": [],
+  "description": ""
 }

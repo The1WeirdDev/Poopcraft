@@ -4,8 +4,59 @@ const gl = canvas.getContext("webgl2", {
   antialias: false
 });
 
+canvas.oncontextmenu = function (e) {
+  e.preventDefault();
+};
+
 window.onload = Start;
 window.onbeforeunload = CleanUp;
+
+document.addEventListener("keydown", function (event) {
+  Statics.onKeyDown(event);
+});
+document.addEventListener("keyup", function (event) {
+  Statics.onKeyUp(event);
+});
+
+gl.canvas.addEventListener("mouseup", (e) => {
+  Statics.onMouseUp(e);
+});
+gl.canvas.addEventListener("mousedown", (e) => {
+  Statics.onMouseDown(e);
+});
+
+//gl.canvas.addEventListener("mousemove", (e) => {
+// Statics.onMouseMove(e);
+//});
+
+canvas.onclick = function () {
+  canvas.requestPointerLock();
+};
+
+document.addEventListener("pointerlockchange", lockChangeAlert, false);
+
+function lockChangeAlert() {
+  if (document.pointerLockElement === canvas) {
+    console.log("The pointer lock status is now locked");
+    document.addEventListener("mousemove", onMouseMove, false);
+  } else {
+    console.log("The pointer lock status is now unlocked");
+    document.removeEventListener("mousemove", onMouseMove, false);
+  }
+}
+let x = 0;
+let y = 0;
+function onMouseMove(e) {
+  var movementX = e.movementX || e.mozMovementX || e.webkitMovementX || 0;
+
+  var movementY = e.movementY || e.mozMovementY || e.webkitMovementY || 0;
+
+  x += movementX;
+  y += movementY;
+
+  console.log(x + " " + y);
+  Statics.onMouseMove(x, y);
+}
 
 let spx = 0;
 let spy = 0;
@@ -29,20 +80,6 @@ let texture_coords = [
   spy
 ];
 
-/*
-spx,
-  spy + sy,
-
-  spx,
-  spy,
-
-  spx + sx,
-  spy + sy,
-
-  spx + sx,
-  spy
-  */
-let t = 0;
 let mesh = new Mesh();
 function Start() {
   Init();
@@ -86,8 +123,8 @@ function Draw() {
 
   //Generating Transformation Matrix
   let transform = new Transform(0, 0, -5);
-  transform.yaw += t / 2;
-  t++;
+  //transform.yaw = 50;
+
   gl.uniformMatrix4fv(
     Shaders.defaultShader_transformationMatrixLocation,
     false,

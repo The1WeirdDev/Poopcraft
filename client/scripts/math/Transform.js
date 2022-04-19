@@ -8,11 +8,17 @@ class Transform {
     //Rotation
     this.roll = 0;
     this.yaw = 0;
-    this.pitch = 0;
+    this.pitch = 45;
 
     //Scale
     this.scale_x = 1;
     this.scale_y = 1;
     this.scale_z = 1;
+  }
+
+  rotate(x, y, z) {
+    this.roll += x;
+    this.yaw += y;
+    //this.pitch = z;
   }
 }
