@@ -1,7 +1,7 @@
 class Shaders {
   static vertexShaderData_default = `
         precision mediump float;
-        attribute vec2 position;
+        attribute vec3 position;
         attribute vec2 texture_coord;
         varying vec2 _texture_coord;
         
@@ -12,7 +12,7 @@ class Shaders {
         void main() {
             _texture_coord = texture_coord;
             
-            gl_Position = projectionMatrix * viewMatrix * transformationMatrix * vec4(position, 0, 1);
+            gl_Position = projectionMatrix * viewMatrix * transformationMatrix * vec4(position, 1.0);
         }
     `;
 
@@ -21,8 +21,7 @@ class Shaders {
         varying vec2 _texture_coord;
         uniform sampler2D textureID;
         void main() {
-            //gl_FragColor = vec4(0.5, 0.5, 0.5, 1.0);
-            gl_FragColor = texture2D(textureID, _texture_coord);
+            gl_FragColor = texture2D(textureID, vec2(_texture_coord.x, _texture_coord.y));
         }
     `;
 

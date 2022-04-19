@@ -8,8 +8,6 @@ class Mesh {
     textureLocation,
     shouldLoad = true
   ) {
-    let gl = Statics.gl;
-
     this.vao_id = gl.createVertexArray();
     gl.bindVertexArray(this.vao_id);
 
@@ -24,7 +22,7 @@ class Mesh {
 
     //Binding vertexData
     gl.enableVertexAttribArray(0);
-    gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
+    gl.vertexAttribPointer(0, 3, gl.FLOAT, false, 0, 0);
     gl.disableVertexAttribArray(0);
 
     //Buffering Index Data
@@ -63,8 +61,6 @@ class Mesh {
   }
 
   draw() {
-    let gl = Statics.gl;
-
     //Binding Vaos and Vbos
     gl.bindVertexArray(this.vao_id);
     gl.bindBuffer(gl.ARRAY_BUFFER, this.vbo_id);
@@ -91,8 +87,6 @@ class Mesh {
   }
 
   cleanUp() {
-    let gl = Statics.gl;
-
     gl.bindBuffer(gl.ARRAY_BUFFER, null);
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, null);
     gl.bindVertexArray(null);

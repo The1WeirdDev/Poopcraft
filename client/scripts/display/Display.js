@@ -1,7 +1,5 @@
 class Display {
   static prepareDisplay() {
-    let canvas = Statics.canvas;
-    let gl = Statics.gl;
     canvas.width = innerWidth;
     canvas.height = innerHeight;
 
@@ -16,19 +14,15 @@ class Display {
   }
 
   static postUpdateDisplay() {
-    let gl = Statics.gl;
-
     gl.disable(gl.CULL_FACE);
     gl.disable(gl.BLEND);
     gl.disable(gl.DEPTH_TEST);
   }
   static getAspectRatio() {
-    let canvas = Statics.canvas;
     return canvas.width / canvas.height;
   }
 
   static getAspectRatio2() {
-    let canvas = Statics.canvas;
     return canvas.height / canvas.width;
   }
 }
