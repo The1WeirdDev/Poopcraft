@@ -4,40 +4,41 @@ class Player extends Entity {
     this.init();
   }
 
-  onMouseMove(mx, my) {
-    Input.mouse_pos_x = mx;
-    Input.mouse_pos_y = my;
-  }
-
   init() {
     //Camera and models
     this.camera = new Camera(this.transform);
 
-    //Movement
-    this.shouldMoveForwards = false;
-    this.shouldMoveBackwards = false;
-    this.shouldMoveLeft = false;
-    this.shouldMoveRight = false;
+    //Mouse
+    this.mouse_speed = 10;
+    this.mouse_yaw = 2;
   }
 
   update() {
-    Input.update();
-    if (this.shouldMoveForwards) this.moveForwards();
-    if (this.shouldMoveBackwards) this.moveBackwards();
-    if (this.shouldMoveLeft) this.moveLeft();
-    if (this.shouldMoveRight) this.moveRight();
-    let rotate_speed = 5;
+    this.checkInput();
+  }
+
+  checkInput() {
+    if (Input.keys[87] == 1) this.moveForwards();
+    if (Input.keys[83] == 1) this.moveBackwards();
+    if (Input.keys[65] == 1) this.moveLeft();
+    if (Input.keys[68] == 1) this.moveRight();
+
     this.transform.rotate(
       0,
-      Input.mouse_direction_x * Time.deltaTime * rotate_speed,
+      Input.mouse_direction_x *
+        Time.deltaTime *
+        this.mouse_speed *
+        this.mouse_yaw,
       0
     );
-    console.log(this.transform.pitch);
-    //this.transform.pitch +=
-    //  Input.mouse_direction_y * Time.deltaTime * rotate_speed;
-
     //console.log(this.transform.pitch);
-    // this.transform.pitch = Maths.clamp(this.transform.pitch, -90, 90);
+    this.transform.pitch +=
+      Input.mouse_direction_y *
+      Time.deltaTime *
+      this.mouse_speed *
+      this.mouse_yaw;
+
+    this.transform.pitch = Maths.clamp(this.transform.pitch, -90, 90);
   }
 
   draw() {}

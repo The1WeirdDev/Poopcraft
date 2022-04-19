@@ -40,8 +40,6 @@ class Maths {
     mat4.rotate(matrix, matrix, Maths.toRadians(transform.yaw), [0, 1, 0]);
     mat4.rotate(matrix, matrix, Maths.toRadians(transform.pitch), [0, 0, 1]);
 
-    //Matrix4f.scale(new Vector3f(scale, scale, scale), matrix, matrix);
-
     return matrix;
   }
 

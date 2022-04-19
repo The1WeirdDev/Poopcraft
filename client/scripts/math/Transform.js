@@ -8,7 +8,7 @@ class Transform {
     //Rotation
     this.roll = 0;
     this.yaw = 0;
-    this.pitch = 45;
+    this.pitch = 0;
 
     //Scale
     this.scale_x = 1;

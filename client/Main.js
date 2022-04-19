@@ -25,37 +25,29 @@ gl.canvas.addEventListener("mousedown", (e) => {
   Statics.onMouseDown(e);
 });
 
-//gl.canvas.addEventListener("mousemove", (e) => {
-// Statics.onMouseMove(e);
-//});
-
 canvas.onclick = function () {
   canvas.requestPointerLock();
 };
 
-document.addEventListener("pointerlockchange", lockChangeAlert, false);
-
 function lockChangeAlert() {
   if (document.pointerLockElement === canvas) {
-    console.log("The pointer lock status is now locked");
+    //console.log("The pointer lock status is now locked");
     document.addEventListener("mousemove", onMouseMove, false);
   } else {
-    console.log("The pointer lock status is now unlocked");
+    //console.log("The pointer lock status is now unlocked");
     document.removeEventListener("mousemove", onMouseMove, false);
   }
 }
-let x = 0;
-let y = 0;
+
 function onMouseMove(e) {
   var movementX = e.movementX || e.mozMovementX || e.webkitMovementX || 0;
 
   var movementY = e.movementY || e.mozMovementY || e.webkitMovementY || 0;
 
-  x += movementX;
-  y += movementY;
+  Input.mouse_pos_x += movementX;
+  Input.mouse_pos_y += movementY;
 
-  console.log(x + " " + y);
-  Statics.onMouseMove(x, y);
+  Statics.onMouseMove(Input.mouse_pos_x, Input.mouse_pos_y);
 }
 
 let spx = 0;
@@ -82,6 +74,7 @@ let texture_coords = [
 
 let mesh = new Mesh();
 function Start() {
+  document.addEventListener("mousemove", onMouseMove, false);
   Init();
   Draw();
 }
@@ -90,7 +83,8 @@ function Init() {
   Shaders.Init();
 
   Time.init();
-  setInterval(Update, 1000 / 60);
+
+  Networking.connectToServer(window.location.origin);
 
   mesh.createMesh(
     vertices,
@@ -98,11 +92,17 @@ function Init() {
     texture_coords,
     "texture-packs/blocks.png"
   );
+
+  setInterval(Update, 1000 / 144);
 }
 function Update() {
   Time.updateTime();
+
+  Input.update();
   Statics.player.update();
 }
+
+let transform = new Transform(0, 0, -5);
 function Draw() {
   Display.prepareDisplay();
 
@@ -122,7 +122,6 @@ function Draw() {
   );
 
   //Generating Transformation Matrix
-  let transform = new Transform(0, 0, -5);
   //transform.yaw = 50;
 
   gl.uniformMatrix4fv(

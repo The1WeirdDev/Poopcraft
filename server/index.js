@@ -1,19 +1,22 @@
-const express = require('express');
-const fs = require('fs');
+const express = require("express");
+const fs = require("fs");
 const app = express();
-const server = require('http').createServer(app);
-const io = require('socket.io')(server);
+const server = require("http").createServer(app);
+const io = require("socket.io")(server);
 
-app.get('*', (req, res) => {
+let Networking = require("./networking/Networking.js");
+let NetworkingTypes = require("./networking/NetworkingTypes.js");
+
+app.get("*", (req, res) => {
   let newUrl = req.url;
-  if (newUrl.startsWith('/')) newUrl = newUrl.slice(1);
-  if (newUrl === '') newUrl = 'client/index.html';
+  if (newUrl.startsWith("/")) newUrl = newUrl.slice(1);
+  if (newUrl === "") newUrl = "client/index.html";
 
-  const headers = { 'Content-Type': 'text/html' };
+  const headers = { "Content-Type": "text/html" };
   fs.readFile(newUrl, function (error, data) {
     if (error) {
       res.writeHead(404, headers);
-      res.write('<html><h1>error 404 page not found</h1></html>');
+      res.write("<html><h1>error 404 page not found</h1></html>");
     } else {
       res.writeHead(200, headers);
       res.write(data);
@@ -23,7 +26,8 @@ app.get('*', (req, res) => {
 });
 
 server.listen(8080, () => {
-  console.log('Server is Running');
+  console.log("Server is Running");
+  Networking.Init();
 });
 
 const the_interval = 50;
@@ -31,9 +35,6 @@ setInterval(update, the_interval);
 
 function update() {}
 
-io.on('connection', (socket) => {
-  console.log('User Connected : ' + socket.id);
-  socket.on('disconnect', () => {
-    console.log('User Disconnected : ' + socket.id);
-  });
+io.on(NetworkingTypes.Connected, (socket) => {
+  Networking.onSocketConnect(socket);
 });
