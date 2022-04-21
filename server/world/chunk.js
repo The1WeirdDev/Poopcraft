@@ -9,6 +9,8 @@ module.exports = class Chunk {
     this.chunk_data = new Array(
       Chunk.chunk_width * Chunk.chunk_width * Chunk.chunk_height
     );
+
+    this.generateBlockData();
   }
 
   isBlockInChunk(x, y, z) {

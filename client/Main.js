@@ -8,6 +8,9 @@ canvas.oncontextmenu = function (e) {
   e.preventDefault();
 };
 
+if (gl == null) {
+  alert("Webgl is not supported. Cannot start game. Try a different browser?");
+}
 window.onload = Start;
 window.onbeforeunload = CleanUp;
 
