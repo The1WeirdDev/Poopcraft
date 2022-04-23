@@ -11,6 +11,7 @@ canvas.oncontextmenu = function (e) {
 if (gl == null) {
   alert("Webgl is not supported. Cannot start game. Try a different browser?");
 }
+
 window.onload = Start;
 window.onbeforeunload = CleanUp;
 
@@ -34,17 +35,14 @@ canvas.onclick = function () {
 
 function lockChangeAlert() {
   if (document.pointerLockElement === canvas) {
-    //console.log("The pointer lock status is now locked");
     document.addEventListener("mousemove", onMouseMove, false);
   } else {
-    //console.log("The pointer lock status is now unlocked");
     document.removeEventListener("mousemove", onMouseMove, false);
   }
 }
 
 function onMouseMove(e) {
   var movementX = e.movementX || e.mozMovementX || e.webkitMovementX || 0;
-
   var movementY = e.movementY || e.mozMovementY || e.webkitMovementY || 0;
 
   Input.mouse_pos_x += movementX;
@@ -52,7 +50,7 @@ function onMouseMove(e) {
 
   Statics.onMouseMove(Input.mouse_pos_x, Input.mouse_pos_y);
 }
-
+/*
 let spx = 0;
 let spy = 0;
 let sx = 16 / 256;
@@ -76,6 +74,8 @@ let texture_coords = [
 ];
 
 let mesh = new Mesh();
+*/
+
 function Start() {
   document.addEventListener("mousemove", onMouseMove, false);
   Init();
@@ -87,59 +87,59 @@ function Init() {
 
   Time.init();
 
-  Networking.connectToServer(window.location.origin);
+  Screens.Init();
 
+  Networking.connectToServer(window.location.origin);
+  /*
   mesh.createMesh(
     vertices,
     indices,
     texture_coords,
     "texture-packs/blocks.png"
   );
-
+    */
   setInterval(Update, 1000 / 144);
 }
 function Update() {
   Time.updateTime();
-
   Input.update();
-  Statics.player.update();
+  Screens.Update();
 }
 
-let transform = new Transform(0, 0, -5);
 function Draw() {
+  //Clearing the screen
   Display.prepareDisplay();
 
-  Shaders.default_shader.start();
   //Generating Projection Matrix
+  Shaders.projectionMatrix = Maths.generateProjectionMatrix(75, 0.01, 1000.0);
+
+  //Binding Default Shader
+  Shaders.default_shader.start();
+  //Binding Projection Matrix
   gl.uniformMatrix4fv(
     Shaders.defaultShader_projectionMatrixLocation,
     false,
-    Maths.generateProjectionMatrix(90, 0.01, 1000.0)
+    Shaders.projectionMatrix
   );
-
   //Generating View Matrix
   gl.uniformMatrix4fv(
     Shaders.defaultShader_viewMatrixLocation,
     false,
     Maths.generateViewMatrix(Statics.player.transform)
   );
-
-  //Generating Transformation Matrix
-  //transform.yaw = 50;
-
-  gl.uniformMatrix4fv(
-    Shaders.defaultShader_transformationMatrixLocation,
-    false,
-    Maths.generateTransformationMatrix(transform)
-  );
-
-  //Drawing
-  mesh.draw();
+  //Unbinding Default Shader
   Shaders.default_shader.stop();
 
+  //Drawing
+  Screens.Draw();
+
+  //Clearing the display and requesting the screen to draw again
   Display.postUpdateDisplay();
   window.requestAnimationFrame(Draw);
 }
 function CleanUp() {
-  mesh.cleanUp();
+  Screens.CleanUp();
+
+  //Cleaning Up Shaders
+  Shaders.default_shader.cleanUp();
 }

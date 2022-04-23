@@ -1,6 +1,6 @@
 class Player extends Entity {
   constructor() {
-    super(0, 0, 0, 4.3);
+    super(0, 0, -10, 4.3);
     this.init();
   }
 
@@ -19,9 +19,11 @@ class Player extends Entity {
 
   checkInput() {
     if (Input.keys[87] == 1) this.moveForwards();
-    if (Input.keys[83] == 1) this.moveBackwards();
+    else if (Input.keys[83] == 1) this.moveBackwards();
     if (Input.keys[65] == 1) this.moveLeft();
-    if (Input.keys[68] == 1) this.moveRight();
+    else if (Input.keys[68] == 1) this.moveRight();
+    if (Input.keys[16] == 1) this.moveDown();
+    else if (Input.keys[32] == 1) this.moveUp();
 
     this.transform.rotate(
       0,

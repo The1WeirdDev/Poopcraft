@@ -1,17 +1,16 @@
 <html>
   <head>
     <title>Poopcraft</title>
+
+    <link href="client/style.css" rel="stylesheet" />
   </head>
 
   <body>
     <div id="game">
-      <canvas
-        id="webgl-canvas"
-        style="cursor: none; position: absolute; top: 0%;"
-      ></canvas>
+      <canvas id="webgl-canvas" class="webgl-canvas"></canvas>
     </div>
-    <div>
-      \
+
+    <div id="scripts">
       <!-- Libraries -->
       <script src="socket.io/socket.io.js"></script>
 
@@ -19,6 +18,10 @@
       <script src="client/scripts/display/Display.js" defer></script>
       <script src="client/scripts/display/Textures.js" defer></script>
       <script src="client/scripts/display/Mesh.js" defer></script>
+
+      <!-- Screens -->
+      <script src="client/scripts/display/screens/Screens.js" defer></script>
+      <script src="client/scripts/display/screens/GameScreen.js" defer></script>
 
       <!-- Shaders -->
       <script src="client/scripts/display/shaders/Shader.js" defer></script>
@@ -36,14 +39,24 @@
       <script src="client/scripts/entities/player/Player.js" defer></script>
       <script src="client/scripts/entities/player/Camera.js" defer></script>
 
+      <!-- World -->
+      <script src="client/scripts/world/World.js" defer></script>
+      <script src="client/scripts/world/Chunk.js" defer></script>
+      <script src="client/scripts/world/Block.js" defer></script>
+
       <!-- Utils -->
       <script src="client/scripts/utils/Time.js" defer></script>
       <script src="client/scripts/utils/Input.js" defer></script>
 
       <!-- Networking -->
       <script src="client/scripts/networking/NetworkingTypes.js" defer></script>
+      <script
+        src="client/scripts/networking/NetworkingPlayers.js"
+        defer
+      ></script>
       <script src="client/scripts/networking/Networking.js" defer></script>
 
+      <!-- Starting Scripts -->
       <script src="client/scripts/Statics.js" defer></script>
       <script src="client/Main.js" defer></script>
     </div>

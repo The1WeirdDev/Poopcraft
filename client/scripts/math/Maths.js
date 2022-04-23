@@ -12,6 +12,10 @@ class Maths {
     else return val;
   }
 
+  /*
+    Matrixes
+  */
+
   static generateProjectionMatrix(FOV, NEAR_PLANE, FAR_PLANE) {
     let aspectRatio = Display.getAspectRatio();
     let y_scale = (1.0 / Math.tan(Maths.toRadians(FOV / 2.0))) * aspectRatio;
@@ -33,6 +37,17 @@ class Maths {
     return projectionMatrix;
   }
 
+  static generateViewMatrix(transform) {
+    let matrix = mat4.create();
+
+    mat4.rotate(matrix, matrix, Maths.toRadians(transform.pitch), [1, 0, 0]);
+    mat4.rotate(matrix, matrix, Maths.toRadians(transform.yaw), [0, 1, 0]);
+    mat4.rotate(matrix, matrix, Maths.toRadians(transform.roll), [0, 0, 1]);
+    mat4.translate(matrix, matrix, [-transform.x, -transform.y, -transform.z]);
+
+    return matrix;
+  }
+
   static generateTransformationMatrix(transform) {
     let matrix = mat4.create();
     mat4.translate(matrix, matrix, [transform.x, transform.y, transform.z]);
@@ -43,13 +58,9 @@ class Maths {
     return matrix;
   }
 
-  static generateViewMatrix(transform) {
+  static generateTransformationMatrix(x, y, z) {
     let matrix = mat4.create();
-
-    mat4.rotate(matrix, matrix, Maths.toRadians(transform.pitch), [1, 0, 0]);
-    mat4.rotate(matrix, matrix, Maths.toRadians(transform.yaw), [0, 1, 0]);
-    mat4.rotate(matrix, matrix, Maths.toRadians(transform.roll), [0, 0, 1]);
-    mat4.translate(matrix, matrix, [-transform.x, -transform.y, -transform.z]);
+    mat4.translate(matrix, matrix, [x, y, z]);
 
     return matrix;
   }

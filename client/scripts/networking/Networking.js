@@ -37,5 +37,6 @@ class Networking {
   }
   static onDisconnect() {
     console.log("Disconnected from server");
+    window.location.reload();
   }
 }

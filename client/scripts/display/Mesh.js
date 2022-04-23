@@ -1,5 +1,7 @@
 class Mesh {
-  constructor() {}
+  constructor() {
+    this.is_mesh_generated = false;
+  }
 
   createMesh(
     vertexData,
@@ -58,9 +60,12 @@ class Mesh {
     gl.bindVertexArray(null);
 
     this.vertex_count = indexData.length;
+    this.is_mesh_generated = true;
   }
 
   draw() {
+    if (this.is_mesh_generated == false) return;
+
     //Binding Vaos and Vbos
     gl.bindVertexArray(this.vao_id);
     gl.bindBuffer(gl.ARRAY_BUFFER, this.vbo_id);
@@ -87,6 +92,7 @@ class Mesh {
   }
 
   cleanUp() {
+    if (this.is_mesh_generated == false) return;
     gl.bindBuffer(gl.ARRAY_BUFFER, null);
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, null);
     gl.bindVertexArray(null);

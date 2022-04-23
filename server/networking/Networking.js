@@ -21,7 +21,8 @@ module.exports = class Networking {
     Networking.Players[socket.id] = {
       id: Networking.generateUUID(),
       name: null,
-      position: [0, 0, 0]
+      position: [0, 0, 0],
+      mesh: null
     };
 
     //Making Sure we remember the player is in
@@ -52,11 +53,13 @@ module.exports = class Networking {
   }
 
   static onConnected(socket) {
+    //Happens when the user first connects
     console.log("User Connected : " + socket.id);
 
     Networking.AddPlayer(socket);
   }
   static onDisconnect(socket) {
+    //Happens when the user disconnects
     console.log("User Disconnected : " + socket.id);
 
     Networking.RemovePlayer(socket);
