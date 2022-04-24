@@ -2,6 +2,10 @@ class GameScreen {
   static world = null;
 
   static Init() {
+    Block.Init();
+
+    Networking.connectToServer(window.location.origin);
+
     GameScreen.world = new World();
   }
   static Update() {

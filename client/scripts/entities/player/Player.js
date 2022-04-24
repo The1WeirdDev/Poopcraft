@@ -1,6 +1,6 @@
 class Player extends Entity {
   constructor() {
-    super(0, 0, -10, 4.3);
+    super(15, 50, 15, 4.3);
     this.init();
   }
 
@@ -11,13 +11,22 @@ class Player extends Entity {
     //Mouse
     this.mouse_speed = 10;
     this.mouse_yaw = 2;
+
+    this.transform.yaw = 180;
   }
 
   update() {
     this.checkInput();
+
+    let px = Math.floor(this.transform.x / Chunk.chunk_width);
+    let pz = Math.floor(this.transform.z / Chunk.chunk_width);
+
+    GameScreen.world.getChunk(px, pz, true);
   }
 
   checkInput() {
+    if (!document.hasFocus()) return;
+
     if (Input.keys[87] == 1) this.moveForwards();
     else if (Input.keys[83] == 1) this.moveBackwards();
     if (Input.keys[65] == 1) this.moveLeft();

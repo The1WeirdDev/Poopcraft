@@ -1,5 +1,7 @@
 //So i dont have to retype and can easily change stuff
-let NetworkingTypes = require("./NetworkingTypes.js");
+let WorldNetworking = require("./WorldNetworking.js");
+let PacketTypes = require("./PacketTypes.js");
+let Utils = require("./../utils/utils.js");
 
 //Server Networking
 module.exports = class Networking {
@@ -11,15 +13,23 @@ module.exports = class Networking {
   static onSocketConnect(socket) {
     Networking.onConnected(socket);
 
-    socket.on(NetworkingTypes.Disconnect, () => {
+    socket.on(PacketTypes.Disconnect, () => {
       Networking.onDisconnect(socket);
+    });
+
+    socket.on(PacketTypes.ReceivePlayers, () => {
+      Networking.onReceivePlayers(socket);
+    });
+
+    socket.on(PacketTypes.ReceiveChunk, (data) => {
+      WorldNetworking.onReceiveChunk(socket, data);
     });
   }
 
   static AddPlayer(socket) {
     //Creating Player Object
     Networking.Players[socket.id] = {
-      id: Networking.generateUUID(),
+      id: Utils.generateUUID(),
       name: null,
       position: [0, 0, 0],
       mesh: null
@@ -29,8 +39,9 @@ module.exports = class Networking {
     Networking.PlayersToRemember.push(Networking.Players[socket.id]);
 
     //Tell the other clients to add the player to their drawing list
-    socket.broadcast.emit(
-      NetworkingTypes.AddPlayer,
+    Networking.sendPacket(
+      socket.broadcast,
+      PacketTypes.AddPlayer,
       Networking.Players[socket.id]
     );
   }
@@ -46,11 +57,18 @@ module.exports = class Networking {
     }
 
     //Telling the other clients to stop doing stuff and to remove the player
-    socket.broadcast.emit(
-      NetworkingTypes.RemovePlayer,
+    Networking.sendPacket(
+      socket.broadcast,
+      PacketTypes.RemovePlayer,
       Networking.Players[socket.id]
     );
   }
+
+  static sendPacket(socket, type, data) {
+    socket.emit(type, data);
+  }
+
+  static onReceivePlayers(socket) {}
 
   static onConnected(socket) {
     //Happens when the user first connects
@@ -63,15 +81,5 @@ module.exports = class Networking {
     console.log("User Disconnected : " + socket.id);
 
     Networking.RemovePlayer(socket);
-  }
-
-  static generateUUID() {
-    return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (
-      c
-    ) {
-      var r = (Math.random() * 16) | 0,
-        v = c == "x" ? r : (r & 0x3) | 0x8;
-      return v.toString(16);
-    });
   }
 };

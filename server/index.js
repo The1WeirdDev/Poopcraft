@@ -5,18 +5,21 @@ const server = require("http").createServer(app);
 const io = require("socket.io")(server);
 
 let Networking = require("./networking/Networking.js");
-let NetworkingTypes = require("./networking/NetworkingTypes.js");
+let WorldNetworking = require("./networking/WorldNetworking.js");
+let PacketTypes = require("./networking/PacketTypes.js");
 
 app.get("*", (req, res) => {
   let newUrl = req.url;
   if (newUrl.startsWith("/")) newUrl = newUrl.slice(1);
   if (newUrl === "") newUrl = "client/index.html";
+  console.log(newUrl);
 
   const headers = { "Content-Type": "text/html" };
   fs.readFile(newUrl, function (error, data) {
     if (error) {
       res.writeHead(404, headers);
       res.write("<html><h1>error 404 page not found</h1></html>");
+      console.log(error);
     } else {
       res.writeHead(200, headers);
       res.write(data);
@@ -31,10 +34,17 @@ server.listen(8080, () => {
 });
 
 const the_interval = 50;
+
+init();
 setInterval(update, the_interval);
+
+function init() {
+  Networking.Init();
+  WorldNetworking.Init();
+}
 
 function update() {}
 
-io.on(NetworkingTypes.Connected, (socket) => {
+io.on(PacketTypes.Connected, (socket) => {
   Networking.onSocketConnect(socket);
 });

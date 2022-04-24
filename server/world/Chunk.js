@@ -3,14 +3,19 @@ module.exports = class Chunk {
   static chunk_height = 100;
 
   constructor(x, z) {
+    this.init(x, z);
+  }
+
+  init(x, z) {
+    this.chunk_x = x;
+    this.chunk_z = z;
+
     this.global_chunk_x = x * Chunk.chunk_width;
     this.global_chunk_z = z * Chunk.chunk_width;
 
     this.chunk_data = new Array(
       Chunk.chunk_width * Chunk.chunk_width * Chunk.chunk_height
     );
-
-    this.generateBlockData();
   }
 
   isBlockInChunk(x, y, z) {
@@ -26,13 +31,17 @@ module.exports = class Chunk {
     else return true;
   }
 
+  getIndex(x, y, z) {
+    let index =
+      y * Chunk.chunk_width * Chunk.chunk_width + z * Chunk.chunk_width + x;
+    return index;
+  }
+
   setBlock(x, y, z, id) {
-    this.chunk_data[y * Chunk.chunk_height + x * Chunk.chunk_width + z] = id;
+    this.chunk_data[this.getIndex(x, y, z)] = id;
   }
   getBlock(x, y, z) {
-    let block = this.chunk_data[
-      y * Chunk.chunk_height + x * Chunk.chunk_width + z
-    ];
+    let block = this.chunk_data[this.getIndex(x, y, z)];
     return block;
   }
 

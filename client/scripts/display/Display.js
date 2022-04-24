@@ -1,5 +1,7 @@
 class Display {
   static prepareDisplay() {
+    if (canvas.width != innerWidth || canvas.height != innerHeight)
+      Shaders.should_generate_projection_matrix = true;
     canvas.width = innerWidth;
     canvas.height = innerHeight;
 

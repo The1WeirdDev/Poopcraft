@@ -33,6 +33,7 @@ class Shaders {
 
   static Init() {
     Shaders.projectionMatrix = mat4.create();
+    Shaders.should_generate_projection_matrix = true;
 
     Shaders.default_shader = new Shader(
       Shaders.vertexShaderData_default,

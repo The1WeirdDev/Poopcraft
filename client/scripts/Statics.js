@@ -1,4 +1,6 @@
 class Statics {
+  static interval = null;
+
   static Init() {
     Statics.player = new Player();
   }

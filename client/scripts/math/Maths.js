@@ -58,9 +58,13 @@ class Maths {
     return matrix;
   }
 
-  static generateTransformationMatrix(x, y, z) {
+  static generateTransformationMatrix(x, y, z, roll = 0, yaw = 0, pitch = 0) {
     let matrix = mat4.create();
     mat4.translate(matrix, matrix, [x, y, z]);
+
+    mat4.rotate(matrix, matrix, Maths.toRadians(roll), [1, 0, 0]);
+    mat4.rotate(matrix, matrix, Maths.toRadians(yaw), [0, 1, 0]);
+    mat4.rotate(matrix, matrix, Maths.toRadians(pitch), [0, 0, 1]);
 
     return matrix;
   }

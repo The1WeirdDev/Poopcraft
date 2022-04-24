@@ -14,29 +14,39 @@ class Networking {
     //Connections
     let socket = Networking.server_socket;
 
-    socket.on(NetworkingTypes.Connected, Networking.onConnect);
-    socket.on(NetworkingTypes.Disconnect, Networking.onDisconnect);
+    //Connections
+    socket.on(PacketTypes.Connected, Networking.onConnect);
+    socket.on(PacketTypes.Disconnect, Networking.onDisconnect);
 
-    socket.on(NetworkingTypes.AddPlayer, Networking.AddPlayer);
-    socket.on(NetworkingTypes.RemovePlayer, Networking.RemovePlayer);
-    socket.on(NetworkingTypes.SetPlayerPosition, Networking.SetPlayerPosition);
-  }
+    //Players
+    socket.on(PacketTypes.ReceivePlayers, NetworkingPlayers.ReceivePlayers);
+    socket.on(PacketTypes.AddPlayer, NetworkingPlayers.AddPlayer);
+    socket.on(PacketTypes.RemovePlayer, NetworkingPlayers.RemovePlayer);
 
-  static AddPlayer(data) {
-    console.log("adding player");
-    console.log(data);
+    //Player Changes
+    socket.on(
+      PacketTypes.SetPlayerPosition,
+      NetworkingPlayers.SetPlayerPosition
+    );
+
+    //World
+    socket.on(PacketTypes.ReceiveChunk, WorldNetworking.onReceiveChunk);
   }
-  static RemovePlayer(data) {
-    console.log("removing player");
-    console.log(data);
-  }
-  static SetPlayerPosition(data) {}
 
   static onConnect() {
     console.log("Connected to server");
+    Networking.is_connected = true;
+
+    Networking.sendPacket(PacketTypes.ReceivePlayers);
   }
   static onDisconnect() {
     console.log("Disconnected from server");
+    Networking.is_connected = false;
     window.location.reload();
+  }
+
+  static sendPacket(type, data) {
+    if (Networking.server_socket != null)
+      Networking.server_socket.emit(type, data);
   }
 }
