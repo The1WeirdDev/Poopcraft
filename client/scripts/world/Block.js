@@ -52,7 +52,7 @@ class Block {
 
   static Init() {
     Block.Air = new Block("air", 0, 0, 0, 0, 0, 0, false, false);
-    Block.Grass = new Block("grass", 5, 1, 0, 0, 0, 0, true, true);
+    Block.Grass = new Block("grass", 13, 1, 0, 0, 0, 0, true, true);
   }
 
   getTexture(direction) {

@@ -12,14 +12,12 @@ app.get("*", (req, res) => {
   let newUrl = req.url;
   if (newUrl.startsWith("/")) newUrl = newUrl.slice(1);
   if (newUrl === "") newUrl = "client/index.html";
-  console.log(newUrl);
 
   const headers = { "Content-Type": "text/html" };
   fs.readFile(newUrl, function (error, data) {
     if (error) {
       res.writeHead(404, headers);
       res.write("<html><h1>error 404 page not found</h1></html>");
-      console.log(error);
     } else {
       res.writeHead(200, headers);
       res.write(data);

@@ -24,6 +24,9 @@ class Chunk {
     //Mesh
     this.mesh = new Mesh();
     this.clear();
+
+    //To make sure the chunk isnt attempted to draw if the mesh isnt made
+    this.is_generated_mesh = false;
   }
 
   clear() {
@@ -35,6 +38,8 @@ class Chunk {
     //Setting vertex index back to 0
     this.vertex_index = 0;
     this.rotation = 0;
+
+    this.is_generated_mesh = false;
   }
 
   isBlockInChunk(x, y, z) {
@@ -146,6 +151,7 @@ class Chunk {
       false
     );
     this.mesh.texture_id = this.world.texture_id;
+    this.is_generated_mesh = true;
   }
 
   //Adding Mesh Data

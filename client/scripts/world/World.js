@@ -70,26 +70,42 @@ class World {
 
       if (_coordinates.x == x && _coordinates.z == z) {
         this.chunks_to_receive.splice(i, 1);
+        break;
       }
     }
 
-    let chunk = new Chunk(this, x, z);
-    chunk.block_data = data;
+    let should_create = true;
 
-    //Current Chunk
-    this.chunks_meshes_to_generate.push(chunk);
+    for (let i = 0; i < this.chunks.length; i++) {
+      let _coordinates = this.chunks[i];
 
-    this.chunks_meshes_to_generate.push(this.getChunk(x - 1, z, false));
-    this.chunks_meshes_to_generate.push(this.getChunk(x + 1, z, false));
-    this.chunks_meshes_to_generate.push(this.getChunk(x, z - 1, false));
-    this.chunks_meshes_to_generate.push(this.getChunk(x, z + 1, false));
+      if (_coordinates.chunk_x == x && _coordinates.chunk_z == z) {
+        should_create = false;
+        break;
+      }
+    }
 
-    this.chunks.push(chunk);
+    if (should_create) {
+      let chunk = new Chunk(this, x, z);
+      chunk.block_data = data;
+
+      //Current Chunk
+      this.chunks_meshes_to_generate.push(chunk);
+
+      this.chunks_meshes_to_generate.push(this.getChunk(x - 1, z, false));
+      this.chunks_meshes_to_generate.push(this.getChunk(x + 1, z, false));
+      this.chunks_meshes_to_generate.push(this.getChunk(x, z - 1, false));
+      this.chunks_meshes_to_generate.push(this.getChunk(x, z + 1, false));
+
+      this.chunks.push(chunk);
+    }
   }
   update() {
+    //Updating some meshes
+
+    //console.log(this.chunks.length);
     if (this.chunks_meshes_to_generate.length > 0) {
       let chunk = this.chunks_meshes_to_generate[0];
-
       if (chunk != null) {
         chunk.cleanUp();
         chunk.clear();
@@ -99,6 +115,29 @@ class World {
 
       this.chunks_meshes_to_generate.splice(0, 1);
     }
+    /*
+    //Creating chunks and drawing the ones that are there
+
+    if (this.chunks_to_render > 5) return;
+    let px = Math.floor(Statics.player.transform.x / Chunk.chunk_width);
+    let pz = Math.floor(Statics.player.transform.z / Chunk.chunk_width);
+
+    let distance = 2;
+    for (let x = px - distance; x < px + distance; x++) {
+      for (let z = pz - distance; z < pz + distance; z++) {
+        let _x = Math.floor(x);
+        let _z = Math.floor(z);
+
+        let chunk = GameScreen.world.getChunk(_x, _z, true);
+
+        //The reason we are checking if it is null is if the chunk is not found
+        //It will request to get that chunk from the server
+        //which will not immediatly return it
+        if (chunk != null) {
+          this.chunks_to_render.push(chunk);
+        }
+      }
+    }*/
   }
   draw() {
     Shaders.default_shader.start();

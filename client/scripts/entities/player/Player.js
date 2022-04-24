@@ -17,11 +17,6 @@ class Player extends Entity {
 
   update() {
     this.checkInput();
-
-    let px = Math.floor(this.transform.x / Chunk.chunk_width);
-    let pz = Math.floor(this.transform.z / Chunk.chunk_width);
-
-    GameScreen.world.getChunk(px, pz, true);
   }
 
   checkInput() {

@@ -1,5 +1,5 @@
 {
-  "name": "pooparia",
+  "name": "poopcraft",
   "version": "0.0.0",
   "main": "server/index.js",
   "scripts": {

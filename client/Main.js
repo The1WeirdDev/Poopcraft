@@ -68,6 +68,7 @@ function Init() {
 }
 function Update() {
   Time.updateTime();
+  //console.log(Math.floor(1.0 / Time.deltaTime));
   Input.update();
   Screens.Update();
 }
