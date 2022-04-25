@@ -31,6 +31,7 @@ gl.canvas.addEventListener("mousedown", (e) => {
 
 canvas.onclick = function () {
   canvas.requestPointerLock();
+  //lockChangeAlert();
 };
 
 function lockChangeAlert() {
@@ -52,11 +53,12 @@ function onMouseMove(e) {
 }
 
 function Start() {
-  document.addEventListener("mousemove", onMouseMove, false);
   Init();
   Draw();
 }
 function Init() {
+  document.addEventListener("mousemove", onMouseMove, false);
+
   Statics.Init();
   Shaders.Init();
 

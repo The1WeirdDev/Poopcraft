@@ -2,7 +2,8 @@ module.exports = class Chunk {
   static chunk_width = 20;
   static chunk_height = 100;
 
-  constructor(x, z) {
+  constructor(world, x, z) {
+    this.world = world;
     this.init(x, z);
   }
 
@@ -49,8 +50,16 @@ module.exports = class Chunk {
     for (let y = 0; y < Chunk.chunk_height; y++) {
       for (let x = 0; x < Chunk.chunk_width; x++) {
         for (let z = 0; z < Chunk.chunk_width; z++) {
-          if (y <= 20 || (x == 5 && z == 5)) this.setBlock(x, y, z, 1);
-          else this.setBlock(x, y, z, 0);
+          this.setBlock(
+            x,
+            y,
+            z,
+            this.world.getBlockId(
+              x + this.global_chunk_x,
+              y,
+              z + this.global_chunk_z
+            )
+          );
         }
       }
     }

@@ -10,6 +10,7 @@ module.exports = class PacketTypes {
 
   //Player Changes
   static SetPlayerPosition = "set_player_position";
+  static SetPlayerRotation = "set_player_rotation";
 
   //World
   static ReceiveChunk = "receive_chunk";

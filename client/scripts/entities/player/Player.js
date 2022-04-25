@@ -1,6 +1,7 @@
 class Player extends Entity {
   constructor() {
     super(15, 50, 15, 4.3);
+    //super(15, 50, 15, 4.3);
     this.init();
   }
 
@@ -28,6 +29,16 @@ class Player extends Entity {
     else if (Input.keys[68] == 1) this.moveRight();
     if (Input.keys[16] == 1) this.moveDown();
     else if (Input.keys[32] == 1) this.moveUp();
+
+    if (this.has_moved) {
+      Networking.sendPacket(PacketTypes.SetPlayerPosition, [
+        this.transform.x,
+        this.transform.y,
+        this.transform.z
+      ]);
+    }
+
+    this.has_moved = false;
 
     this.transform.rotate(
       0,

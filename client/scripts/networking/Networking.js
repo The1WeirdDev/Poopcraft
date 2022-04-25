@@ -4,6 +4,19 @@ class Networking {
   static is_connected = false;
   static server_socket = null;
 
+  static Init() {
+    NetworkingPlayers.Init();
+  }
+  static Update() {
+    NetworkingPlayers.Update();
+  }
+  static Draw() {
+    NetworkingPlayers.Draw();
+  }
+  static CleanUp() {
+    NetworkingPlayers.CleanUp();
+  }
+
   static connectToServer(address) {
     this.server_address = address;
 

@@ -115,10 +115,10 @@ class World {
 
       this.chunks_meshes_to_generate.splice(0, 1);
     }
-    /*
+
     //Creating chunks and drawing the ones that are there
 
-    if (this.chunks_to_render > 5) return;
+    this.chunks_to_render = [];
     let px = Math.floor(Statics.player.transform.x / Chunk.chunk_width);
     let pz = Math.floor(Statics.player.transform.z / Chunk.chunk_width);
 
@@ -137,24 +137,24 @@ class World {
           this.chunks_to_render.push(chunk);
         }
       }
-    }*/
+    }
   }
   draw() {
     Shaders.default_shader.start();
 
-    for (let i = 0; i < this.chunks.length; i++) {
+    for (let i = 0; i < this.chunks_to_render.length; i++) {
       //Generating Transformation Matrix
       gl.uniformMatrix4fv(
         Shaders.defaultShader_transformationMatrixLocation,
         false,
         Maths.generateTransformationMatrix(
-          this.chunks[i].global_chunk_x,
+          this.chunks_to_render[i].global_chunk_x,
           0,
-          this.chunks[i].global_chunk_z
+          this.chunks_to_render[i].global_chunk_z
         )
       );
 
-      this.chunks[i].draw();
+      this.chunks_to_render[i].draw();
     }
 
     Shaders.default_shader.stop();

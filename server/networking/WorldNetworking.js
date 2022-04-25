@@ -14,7 +14,7 @@ module.exports = class WorldNetworking {
     let _x = Math.floor(data.x);
     let _z = Math.floor(data.z);
 
-    let chunk = WorldNetworking.world.getChunk(0, 0);
+    let chunk = WorldNetworking.world.getChunk(_x, _z);
     let _data = chunk.chunk_data;
     socket.emit(PacketTypes.ReceiveChunk, {
       x: _x,
