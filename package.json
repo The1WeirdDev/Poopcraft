@@ -10,7 +10,7 @@
     "express": "^4.17.3",
     "fs": "*",
     "simplex-noise": "3.0.1",
-    "socket.io": "^4.4.1"
+    "socket.io": "^4.6.1"
   },
   "keywords": [],
   "description": ""
